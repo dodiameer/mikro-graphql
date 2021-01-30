@@ -28,6 +28,16 @@ class CreateBookInput {
   authorId!: number;
 }
 
+@InputType()
+class UpdateBookInput {
+  @Field({ nullable: true })
+  @MaxLength(100, { message: "Title must be 100 characters or less" })
+  title?: string;
+
+  @Field((type) => ID, { nullable: true })
+  authorId?: number;
+}
+
 @ObjectType()
 class BookMutation {
   @Field((type) => [MutationError], { nullable: true })
@@ -113,5 +123,31 @@ export class BookResolver {
       console.log(e);
       return false;
     }
+  }
+
+  @Mutation((type) => BookMutation)
+  async updateBook(
+    @Ctx() { em }: MyContext,
+    @Arg("id", (type) => ID) id: number,
+    @Arg("input", (type) => UpdateBookInput) input: UpdateBookInput
+  ): Promise<BookMutation> {
+    const book = await em.findOne(Book, { id });
+    if (!book) {
+      return {
+        errors: [{ field: "id", error: "Book not found" }],
+      };
+    }
+    if (input.authorId && input.authorId !== book.author.id) {
+      const author = await em.findOne(Author, { id: input.authorId });
+      if (!author) {
+        return {
+          errors: [{ field: "authorId", error: "Author not found" }],
+        };
+      }
+      book.author = author;
+    }
+    book.title = input.title ?? book.title;
+    await em.persistAndFlush(book);
+    return { book };
   }
 }
