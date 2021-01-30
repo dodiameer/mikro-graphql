@@ -96,4 +96,22 @@ export class BookResolver {
     await em.persistAndFlush(book);
     return { book };
   }
+
+  @Mutation((type) => Boolean)
+  async deleteBook(
+    @Ctx() { em }: MyContext,
+    @Arg("id", (type) => ID) id: number
+  ): Promise<boolean> {
+    const book = await em.findOne(Book, { id });
+    if (!book) {
+      return false;
+    }
+    try {
+      await em.removeAndFlush(book);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  }
 }
