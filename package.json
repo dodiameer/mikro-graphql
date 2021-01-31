@@ -40,5 +40,8 @@
       "./dist/config/mikro-orm.config.js"
     ],
     "useTsNode": true
+  },
+  "engines": {
+    "node": "14"
   }
 }
