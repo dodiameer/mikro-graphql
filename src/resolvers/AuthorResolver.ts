@@ -1,6 +1,7 @@
 import { MutationError, MyContext } from "../types";
 import {
   Arg,
+  Authorized,
   Ctx,
   Field,
   ID,
@@ -88,6 +89,7 @@ export class AuthorResolver {
   }
 
   @Mutation((type) => AuthorMutation)
+  @Authorized()
   async createAuthor(
     @Ctx() { em }: MyContext,
     @Arg("input", (type) => CreateAuthorInput) input: CreateAuthorInput
@@ -98,6 +100,7 @@ export class AuthorResolver {
   }
 
   @Mutation((type) => Boolean)
+  @Authorized()
   async deleteAuthor(
     @Ctx() { em }: MyContext,
     @Arg("id", (type) => ID) id: number
@@ -116,6 +119,7 @@ export class AuthorResolver {
   }
 
   @Mutation((type) => AuthorMutation)
+  @Authorized()
   async updateAuthor(
     @Ctx() { em }: MyContext,
     @Arg("id", (type) => ID) id: number,

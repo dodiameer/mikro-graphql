@@ -8,7 +8,6 @@ import { BookResolver } from "./resolvers/BookResolver";
 import { isProd } from "./constants";
 import { AuthorResolver } from "./resolvers/AuthorResolver";
 import isAdmin from "./utils/middleware/isAdmin";
-import { HelloResolver } from "./resolvers/HelloResolver";
 
 const main = async () => {
   /* ORM Initialization */
@@ -28,7 +27,7 @@ const main = async () => {
   const app = express();
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [BookResolver, AuthorResolver, HelloResolver],
+      resolvers: [BookResolver, AuthorResolver],
       authChecker: isAdmin,
     }),
     context: ({ req }) => {

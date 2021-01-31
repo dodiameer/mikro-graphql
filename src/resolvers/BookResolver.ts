@@ -2,6 +2,7 @@ import { Book } from "../entities/Book";
 import { MutationError, MyContext } from "../types";
 import {
   Arg,
+  Authorized,
   Ctx,
   Field,
   ID,
@@ -85,6 +86,7 @@ export class BookResolver {
   }
 
   @Mutation((type) => BookMutation)
+  @Authorized()
   async createBook(
     @Ctx() { em }: MyContext,
     @Arg("input", (type) => CreateBookInput) input: CreateBookInput
@@ -108,6 +110,7 @@ export class BookResolver {
   }
 
   @Mutation((type) => Boolean)
+  @Authorized()
   async deleteBook(
     @Ctx() { em }: MyContext,
     @Arg("id", (type) => ID) id: number
@@ -126,6 +129,7 @@ export class BookResolver {
   }
 
   @Mutation((type) => BookMutation)
+  @Authorized()
   async updateBook(
     @Ctx() { em }: MyContext,
     @Arg("id", (type) => ID) id: number,
