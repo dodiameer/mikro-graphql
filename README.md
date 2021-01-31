@@ -3,6 +3,10 @@
 A simple GraphQL API built with PostgreSQL, Typescript, and MikroORM,
 to show how to do simple CRUD functionality with relations in GraphQL.
 
+All mutations are private and will only execute if a client provides an "admin secret"
+in the Authorization header. By default the secret is "admin-secret", to override it set
+the "ADMIN_CLIENT_SHARED_SECRET" environment variable (Don't forget to set it in production!). To disable, remove "Authorized" decorator. To modify, edit `src/utils/middleware/isAdmin.ts` and the context function in `src/index.ts`
+
 ## How to run
 
 1. Clone repo and install using `yarn`
