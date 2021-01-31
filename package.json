@@ -33,7 +33,7 @@
     "db": "mikro-orm",
     "start": "node ./dist/index.js",
     "build": "tsc",
-    "start:heroku": "npm run build && npm run db migration:up && npm run start"
+    "start:heroku": "yarn start"
   },
   "mikro-orm": {
     "configPaths": [
