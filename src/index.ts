@@ -6,6 +6,7 @@ import MikroORMConfig from "./config/mikro-orm.config";
 import { buildSchema } from "type-graphql";
 import { BookResolver } from "./resolvers/BookResolver";
 import { isProd } from "./constants";
+import { AuthorResolver } from "./resolvers/AuthorResolver";
 
 const main = async () => {
   /* ORM Initialization */
@@ -25,7 +26,7 @@ const main = async () => {
   const app = express();
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [BookResolver],
+      resolvers: [BookResolver, AuthorResolver],
     }),
     context: () => ({ em: orm.em }),
   });

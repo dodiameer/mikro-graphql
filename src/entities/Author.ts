@@ -27,7 +27,7 @@ export class Author {
   @Field((type) => String)
   name!: string;
 
-  @Property()
+  @Property({ nullable: true })
   @Field((type) => Int, { nullable: true })
   age?: number;
 
