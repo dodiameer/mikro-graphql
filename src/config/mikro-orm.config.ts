@@ -4,7 +4,7 @@ import { Author } from "../entities/Author";
 import { Book } from "../entities/Book";
 import path from "path";
 
-const ORM_MIGRATIONS_PATH = path.resolve("..", "migrations");
+const ORM_MIGRATIONS_PATH = path.join("..", "migrations");
 
 const MikroORMConfig = {
   entities: [Book, Author],
