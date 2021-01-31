@@ -7,9 +7,9 @@ const MikroORMConfig = {
   entities: [Book, Author],
   dbName: "mikroorm-books",
   type: "postgresql",
-  clientUrl: "http://localhost:5432",
-  user: "postgres",
-  password: "dbpass",
+  clientUrl: isProd
+    ? process.env.DATABASE_URL
+    : "http://postgres:dbpass@localhost:5432",
   debug: !isProd,
 } as Parameters<typeof MikroORM.init>[0];
 
