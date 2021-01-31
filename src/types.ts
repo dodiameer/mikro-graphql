@@ -3,6 +3,7 @@ import { Field, ObjectType } from "type-graphql";
 
 export type MyContext = {
   em: EntityManager<any> & EntityManager<IDatabaseDriver<Connection>>;
+  isAnAdminClient: boolean;
 };
 
 @ObjectType()

@@ -7,6 +7,8 @@ import { buildSchema } from "type-graphql";
 import { BookResolver } from "./resolvers/BookResolver";
 import { isProd } from "./constants";
 import { AuthorResolver } from "./resolvers/AuthorResolver";
+import isAdmin from "./utils/middleware/isAdmin";
+import { HelloResolver } from "./resolvers/HelloResolver";
 
 const main = async () => {
   /* ORM Initialization */
@@ -26,9 +28,20 @@ const main = async () => {
   const app = express();
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [BookResolver, AuthorResolver],
+      resolvers: [BookResolver, AuthorResolver, HelloResolver],
+      authChecker: isAdmin,
     }),
-    context: () => ({ em: orm.em }),
+    context: ({ req }) => {
+      const adminClientSharedSecret =
+        process.env.ADMIN_CLIENT_SHARED_SECRET ?? "admin-secret";
+      const header = req.header("Authorization");
+      const token = header?.split("Bearer ")[1] ?? null;
+      const isAnAdminClient = token === adminClientSharedSecret;
+      return {
+        em: orm.em,
+        isAnAdminClient,
+      };
+    },
   });
   server.applyMiddleware({ app });
 
